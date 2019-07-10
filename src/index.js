@@ -12,7 +12,7 @@ function Square(props) {
     // }
     return (
         <button className="square"
-                onClick={ props.onClick()}
+                onClick={ props.onClick}
         >
             {props.value}
         </button>
@@ -35,15 +35,21 @@ class Board extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            squares: Array(9)
+            squares: Array(9),
+            xIsNext: true
         }
     }
 
     handleClick(i) {
         // 创建了一个当前数组的副本,确保操作数据不会影响到原数组
         const squares = this.state.squares.slice();
-
-        this.setState({squares: squares})
+        if (!squares[i]) {
+            squares[i] = this.state.xIsNext?'X':'O'
+        }
+        this.setState({
+            squares: squares,
+            xIsNext: !this.state.xIsNext
+        })
     }
 
     renderSquare(i) {
@@ -70,7 +76,7 @@ class Board extends React.Component {
     // }
 
     render() {
-        const status = 'Next player: X';
+        const status = 'Next player: '+(this.state.xIsNext?'X':'O');
 
         return (
             <div>
