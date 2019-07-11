@@ -31,12 +31,21 @@ function calculateWinner(squares) {
         [0, 4, 8],
         [2, 4, 6],
     ];
-    // lines.forEach(item=>{
-    //     const [a,b,c] = item
-    //     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]){
-    //         return squares[a]
-    //     }
-    // })
+    // 强制终端forEach循环来返回值, 非常不合理-不要用
+    // try {
+    //     lines.forEach(item=>{
+    //         const [a,b,c] = item
+    //         if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]){
+    //             throw new Error(squares[a])
+    //             console.log(squares[a])
+    //             // forEach 循环不能中断,也不能跳出
+    //             // return squares[a]
+    //         }
+    //     })
+    // }catch (e) {
+    //     return e.message
+    // }
+
     for (let i = 0; i < lines.length; i++) {
         const [a, b, c] = lines[i];
         if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
