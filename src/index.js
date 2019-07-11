@@ -71,7 +71,9 @@ class Board extends React.Component {
         super(props)
         this.state = {
             squares: Array(9),
-            xIsNext: true
+            xIsNext: true,
+            history:[],
+            test:1
         }
     }
 
@@ -81,8 +83,12 @@ class Board extends React.Component {
         if (calculateWinner(squares) || squares[i]) {
             return
         }
-
+        let history = this.state.history
+        history.push(this.state.squares)
         if (!squares[i]) {
+            this.setState({
+                history: history
+            })
             squares[i] = this.state.xIsNext?'X':'O'
         }
         this.setState({
@@ -99,14 +105,25 @@ class Board extends React.Component {
 
     reset() {
         this.setState({
-            squares: []
+            squares: [],
+            xIsNext: true,
+            history: []
         })
     }
 
     back() {
-        this.setState({
-            squares: this.state.squares
-        })
+        if (this.state.history.length &&  !calculateWinner(this.state.squares)){
+            let historyLength = this.state.history.length
+            let history = this.state.history
+            this.setState({
+                squares: history[historyLength-1],
+                xIsNext: !this.state.xIsNext
+            })
+            history.pop()
+        }else{
+            return null
+        }
+
     }
 
     // getData(){
@@ -127,7 +144,7 @@ class Board extends React.Component {
                 {/*{this.getData()}*/}
                 <button onClick={() => {
                     this.reset()
-                }}>重置
+                }}>重开
                 </button>
                 <button onClick={() => {
                     this.back()
